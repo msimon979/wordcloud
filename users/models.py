@@ -1,8 +1,6 @@
 from django.conf import settings
 from django.db import models
 
-from lib.cost_calculator import CostCalculator
-
 COVERAGE_TYPE_CHOICES = [
     ("basic", "basic"),
     ("premium", "premium"),
@@ -27,6 +25,8 @@ class UserInformation(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
+        from lib.cost_calculator import CostCalculator
+
         self.state = self.state.upper()
         super(UserInformation, self).save(*args, **kwargs)
 

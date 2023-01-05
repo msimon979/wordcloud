@@ -31,7 +31,7 @@ class UserSerializer(serializers.ModelSerializer):
         instance.email = validated_data.get("email", instance.email)
         if password := self.context.get("password"):
             instance.set_password(password)
-            del self.context['password']
+            del self.context["password"]
 
         instance.save()
 

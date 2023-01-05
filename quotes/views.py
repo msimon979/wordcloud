@@ -5,7 +5,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from quotes.models import Quote
+from quotes.quote_service import QuoteService
 from quotes.serializers import QuoteSerializer
+from states.models import State
 
 
 def get_quote(quote_id):
@@ -14,6 +16,14 @@ def get_quote(quote_id):
         return quote
     except Quote.DoesNotExist:
         return None
+
+
+def update_quote(quote):
+    state = State.objects.get(state=quote.state)
+    if quote.updated_at < state.updated_at:
+        QuoteService.update_existing_quote(quote, state)
+        quote.refresh_from_db()
+    return quote
 
 
 class QuoteDetailView(APIView):
@@ -30,7 +40,8 @@ class QuoteDetailView(APIView):
                     },
                     status=status.HTTP_401_UNAUTHORIZED,
                 )
-
+            # If quote is out of date update it
+            update_quote(quote)
             serializer = QuoteSerializer(quote)
             return Response(serializer.data, status=status.HTTP_200_OK)
 

@@ -14,6 +14,7 @@ def get_user(user_id):
     except User.DoesNotExist:
         return None
 
+
 def format_user_context(request):
     data = {
         "password": request.data.get("password"),
@@ -38,7 +39,7 @@ def patch_user_context(request):
     data = format_user_context(request)
 
     patch_data = {}
-    for k,v in data.items():
+    for k, v in data.items():
         if v is not None:
             patch_data[k] = v
 

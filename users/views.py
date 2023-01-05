@@ -9,8 +9,8 @@ from users.helpers import (
     create_user_context,
     get_user,
     is_internal_user,
-    user_can_access,
     patch_user_context,
+    user_can_access,
 )
 from users.serializers import UserSerializer
 
