@@ -35,7 +35,10 @@ def get_costs(state, user_information):
 class CostCalculator:
     @staticmethod
     def create_quote(user_information):
-        state = State.objects.get(state=user_information.state)
+        try:
+            state = State.objects.get(state=user_information.state)
+        except State.DoesNotExist:
+            return
 
         subtotal, monthly_tax_cost = get_costs(state, user_information)
 

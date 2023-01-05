@@ -72,13 +72,34 @@ def test_quotes_from_example(
     assert quote.monthly_taxes == expected_monthly_taxes
     assert quote.monthly_total == expected_monthly_total
 
+
 @pytest.mark.parametrize(
     "state_abbr,has_pet,include_flood_coverage,coverage_type",
     [
-        ("CA", True, True, "basic",),
-        ("CA", True, True, "premium",),
-        ("NY", True, False, "premium",),
-        ("TX", False, True, "basic",),
+        (
+            "CA",
+            True,
+            True,
+            "basic",
+        ),
+        (
+            "CA",
+            True,
+            True,
+            "premium",
+        ),
+        (
+            "NY",
+            True,
+            False,
+            "premium",
+        ),
+        (
+            "TX",
+            False,
+            True,
+            "basic",
+        ),
     ],
 )
 @pytest.mark.django_db

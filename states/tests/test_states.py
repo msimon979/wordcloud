@@ -11,6 +11,7 @@ from users.tests.factories.user_factory import UserFactory
 @pytest.mark.django_db
 class InternalStateTests(APITestCase):
     def setUp(self):
+        """Auth the client with internal user"""
         self.user = UserFactory(is_staff=True)
 
         jwt_fetch_data = {"username": self.user.username, "password": 123}
@@ -113,6 +114,7 @@ class InternalStateTests(APITestCase):
 @pytest.mark.django_db
 class ExternalStateTests(APITestCase):
     def setUp(self):
+        """Auth client with external user"""
         self.user = UserFactory(is_staff=False)
 
         jwt_fetch_data = {"username": self.user.username, "password": 123}

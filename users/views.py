@@ -1,14 +1,13 @@
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from users.helpers import (
     create_user_context,
     get_user,
-    is_internal_user,
     patch_user_context,
     user_can_access,
 )
@@ -17,6 +16,7 @@ from users.serializers import UserSerializer
 
 class UserCreationView(APIView):
     http_method_names = ["get", "post", "head", "options"]
+    permission_classes = (IsAdminUser,)
 
     def post(self, request):
         if context := create_user_context(request):
@@ -30,15 +30,11 @@ class UserCreationView(APIView):
         )
 
     def get(self, request):
-        if is_internal_user(request):
-            users = self.get_serialized()
-            return JsonResponse(data=users, status=status.HTTP_200_OK, safe=False)
-        return JsonResponse(
-            {"error": "not authenticated"}, status=status.HTTP_401_UNAUTHORIZED
-        )
+        users = self.get_serialized()
+        return JsonResponse(data=users, status=status.HTTP_200_OK, safe=False)
 
     def get_serialized(self):
-        queryset = User.objects.all()
+        queryset = User.objects.exclude(is_staff=True)
         serializer = UserSerializer(queryset, many=True)
         return serializer.data
 

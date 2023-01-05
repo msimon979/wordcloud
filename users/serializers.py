@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from rest_framework import serializers
 
 from quotes.quote_service import QuoteService
@@ -9,6 +10,18 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "first_name", "last_name", "username", "email"]
+
+    def validate(self, attrs):
+        if self.context["request_method"] == "post":
+            required_keys = ["first_name", "last_name", "username", "email"]
+
+            for key in required_keys:
+                if key not in attrs.keys():
+                    raise ValidationError(f"missing key {key}")
+                if attrs[key] is None:
+                    raise ValidationError(f"key {key} needs a value")
+
+        return attrs
 
     def create(self, validated_data):
         user = User.objects.create(

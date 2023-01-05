@@ -9,6 +9,7 @@ from states.tests.factories.state_factory import StateFactory
 
 @pytest.mark.django_db
 def test_get_user_quotes():
+    """Test get_user_quotes returns list(dict)"""
     quote = QuoteFactory(state="CO", user_id=2)
     assert QuoteService.get_user_quotes(quote.user_id) == [model_to_dict(quote)]
 
@@ -16,6 +17,7 @@ def test_get_user_quotes():
 @mock.patch("lib.cost_calculator.CostCalculator.update_quote")
 @pytest.mark.django_db
 def test_update_existing_quotes_is_called(mock_cost_calc):
+    """Test CostCalculator gets called by QuoteService"""
     quote = QuoteFactory()
     state = StateFactory()
 
