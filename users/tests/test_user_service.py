@@ -1,10 +1,5 @@
-import mock
 import pytest
-from django.forms.models import model_to_dict
 
-from quotes.quote_service import QuoteService
-from quotes.tests.factories.quote_factories import QuoteFactory
-from states.tests.factories.state_factory import StateFactory
 from users.tests.factories.user_factory import UserFactory, UserInformationFactory
 from users.user_service import UserService
 

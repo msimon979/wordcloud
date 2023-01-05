@@ -1,14 +1,8 @@
-import decimal
-
 import pytest
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from lib.cost_calculator import CostCalculator, format_float, get_costs
-from quotes.models import Quote
-from states.models import State
-from states.tests.factories.state_factory import StateFactory
 from users.tests.factories.user_factory import UserFactory, UserInformationFactory
 
 
