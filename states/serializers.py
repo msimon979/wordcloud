@@ -8,7 +8,7 @@ class StateSerializer(serializers.ModelSerializer):
         model = State
         fields = "__all__"
 
-    def update(self, instance, validated_data):
+    def update(self, instance: State, validated_data: dict):
         instance.flood_cost_percentage = validated_data.get(
             "flood_cost_percentage", instance.flood_cost_percentage
         )

@@ -12,7 +12,7 @@ class QuoteDetailView(APIView):
     permission_classes = (IsAuthenticated,)
     http_method_names = ["get", "head", "options"]
 
-    def get(self, request, quote_id):
+    def get(self, request, quote_id: int):
         if quote := get_quote(quote_id):
 
             if request.user.is_staff is False and quote.user_id != request.user.id:

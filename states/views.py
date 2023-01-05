@@ -12,7 +12,7 @@ class StateDetailView(APIView):
     http_method_names = ["get", "patch", "head", "options"]
     permission_classes = (IsAdminUser,)
 
-    def get(self, request, state_id):
+    def get(self, request, state_id: int):
         try:
             state = State.objects.get(id=state_id)
         except State.DoesNotExist:
@@ -24,7 +24,7 @@ class StateDetailView(APIView):
         serializer = StateSerializer(state)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def patch(self, request, state_id):
+    def patch(self, request, state_id: int):
         try:
             state = State.objects.get(id=state_id)
         except State.DoesNotExist:

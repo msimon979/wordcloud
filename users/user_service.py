@@ -1,9 +1,11 @@
+from django.contrib.auth.models import User
+
 from users.models import UserInformation
 
 
 class UserService:
     @staticmethod
-    def create_user_information(user, context):
+    def create_user_information(user: User, context: dict) -> dict:
         query_args = {
             "user": user,
             "state": context["state"],
@@ -16,7 +18,7 @@ class UserService:
         return user_information
 
     @staticmethod
-    def update_user_information(user, context):
+    def update_user_information(user: User, context: dict) -> UserInformation:
         user = UserInformation.objects.get(user=user)
 
         for col, value in context.items():
@@ -27,7 +29,7 @@ class UserService:
         return user
 
     @staticmethod
-    def get_user_state(user):
+    def get_user_state(user: User) -> str:
         try:
             user = UserInformation.objects.get(user=user)
         except UserInformation.DoesNotExist:
@@ -35,7 +37,7 @@ class UserService:
         return user.state
 
     @staticmethod
-    def get_user_information(user):
+    def get_user_information(user: User) -> dict:
         try:
             user = UserInformation.objects.get(user=user)
         except UserInformation.DoesNotExist:

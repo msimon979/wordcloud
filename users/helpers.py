@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 
 
-def get_user(user_id):
+def get_user(user_id: int) -> User:
     try:
         user = User.objects.get(id=user_id)
         return user
@@ -9,7 +9,7 @@ def get_user(user_id):
         return None
 
 
-def format_user_context(request, action):
+def format_user_context(request, action: str) -> dict:
     data = {
         "password": request.data.get("password"),
         "state": request.data.get("state"),
@@ -21,7 +21,7 @@ def format_user_context(request, action):
     return data
 
 
-def create_user_context(request):
+def create_user_context(request) -> dict:
     data = format_user_context(request, "post")
 
     if None in data.values():
@@ -30,7 +30,7 @@ def create_user_context(request):
     return data
 
 
-def patch_user_context(request):
+def patch_user_context(request) -> dict:
     data = format_user_context(request, "patch")
 
     patch_data = {}
@@ -41,7 +41,7 @@ def patch_user_context(request):
     return patch_data
 
 
-def user_can_access(user_id, request):
+def user_can_access(user_id: int, request) -> bool:
     if request.user.is_staff is False and user_id != request.user.id:
         return False
 

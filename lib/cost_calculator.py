@@ -1,4 +1,6 @@
-from django.db import IntegrityError
+from typing import Iterable, Union
+
+from django.db import IntegrityError, transaction
 
 from quotes.models import Quote
 from states.models import State
@@ -14,12 +16,14 @@ COVERAGE_COSTS = {
 }
 
 
-def format_float(cost):
+def format_float(cost: float) -> float:
     num_decimals = 2
     return int(cost * 10**num_decimals) / 10**num_decimals
 
 
-def get_costs(state, user_information):
+def get_costs(
+    state: State, user_information: UserInformation
+) -> Iterable[Union[bool, str]]:
     coverage_cost = COVERAGE_COSTS.get(user_information.coverage_type)
     has_pet = PET_COST if user_information.has_pet else 0
 
@@ -34,7 +38,7 @@ def get_costs(state, user_information):
 
 class CostCalculator:
     @staticmethod
-    def create_quote(user_information):
+    def create_quote(user_information: UserInformation) -> Quote:
         try:
             state = State.objects.get(state=user_information.state)
         except State.DoesNotExist:
@@ -55,7 +59,8 @@ class CostCalculator:
         }
 
         try:
-            new_quote = Quote.objects.create(**query_args)
+            with transaction.atomic():
+                new_quote = Quote.objects.create(**query_args)
         except IntegrityError:
             return
 
@@ -66,7 +71,7 @@ class CostCalculator:
         return new_quote
 
     @staticmethod
-    def update_quote(quote, state):
+    def update_quote(quote: Quote, state: State) -> Quote:
         user_information = UserInformation.objects.get(user_id=quote.user_id)
 
         subtotal, monthly_tax_cost = get_costs(state, user_information)
