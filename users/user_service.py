@@ -12,7 +12,8 @@ class UserService:
             "coverage_type": context["coverage_type"],
         }
 
-        UserInformation.objects.create(**query_args)
+        user_information = UserInformation.objects.create(**query_args)
+        return user_information
 
     @staticmethod
     def update_user_information(user, context):
@@ -23,6 +24,7 @@ class UserService:
                 setattr(user, col, value)
 
         user.save()
+        return user
 
     @staticmethod
     def get_user_state(user):
