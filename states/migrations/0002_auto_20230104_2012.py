@@ -4,7 +4,7 @@ from django.db import migrations
 
 
 def create_states(apps, schema_editor):
-    State = apps.get_model('states', 'State')
+    State = apps.get_model("states", "State")
     existing_states = [state.state for state in State.objects.all()]
 
     states_to_create = [
@@ -21,10 +21,11 @@ def create_states(apps, schema_editor):
 def reverse_states(apps, schema_editor):
     pass
 
+
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('states', '0001_initial'),
+        ("states", "0001_initial"),
     ]
 
     operations = [

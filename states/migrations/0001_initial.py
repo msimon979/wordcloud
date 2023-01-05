@@ -7,21 +7,31 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='State',
+            name="State",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('state', models.CharField(max_length=2)),
-                ('flood_cost_percentage', models.DecimalField(decimal_places=3, max_digits=5)),
-                ('monthly_tax', models.DecimalField(decimal_places=3, max_digits=5)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("state", models.CharField(max_length=2)),
+                (
+                    "flood_cost_percentage",
+                    models.DecimalField(decimal_places=3, max_digits=5),
+                ),
+                ("monthly_tax", models.DecimalField(decimal_places=3, max_digits=5)),
             ],
         ),
         migrations.AddConstraint(
-            model_name='state',
-            constraint=models.UniqueConstraint(fields=('state',), name='unique_state'),
+            model_name="state",
+            constraint=models.UniqueConstraint(fields=("state",), name="unique_state"),
         ),
     ]
