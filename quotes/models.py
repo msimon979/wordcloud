@@ -20,3 +20,5 @@ class Quote(models.Model):
     monthly_taxes = models.FloatField(null=False)
     monthly_total = models.FloatField(null=False)
     user_id = models.IntegerField(null=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

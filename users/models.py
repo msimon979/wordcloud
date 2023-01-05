@@ -23,6 +23,8 @@ class UserInformation(models.Model):
     coverage_type = models.CharField(
         max_length=20, choices=COVERAGE_TYPE_CHOICES, null=False, default="basic"
     )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
         self.state = self.state.upper()

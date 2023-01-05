@@ -15,9 +15,13 @@ class UserService:
         UserInformation.objects.create(**query_args)
 
     @staticmethod
-    def update_user_state(user, state):
+    def update_user_information(user, context):
         user = UserInformation.objects.get(user=user)
-        user.state = state
+
+        for col, value in context.items():
+            if hasattr(user, col):
+                setattr(user, col, value)
+
         user.save()
 
     @staticmethod

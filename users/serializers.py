@@ -1,10 +1,7 @@
 from django.contrib.auth.models import User
-from django.contrib.auth.password_validation import validate_password
-from django.core.exceptions import ValidationError
-from rest_framework import serializers, status
-from rest_framework.response import Response
-from rest_framework.validators import UniqueValidator
+from rest_framework import serializers
 
+from quotes.quote_service import QuoteService
 from users.user_service import UserService
 
 
@@ -32,17 +29,18 @@ class UserSerializer(serializers.ModelSerializer):
         instance.last_name = validated_data.get("last_name", instance.last_name)
         instance.username = validated_data.get("username", instance.username)
         instance.email = validated_data.get("email", instance.email)
-        if password := validated_data.get("password"):
+        if password := self.context.get("password"):
             instance.set_password(password)
+            del self.context['password']
 
         instance.save()
 
-        if state := self.context["state"]:
-            UserService.update_user_state(instance, state)
+        if self.context:
+            UserService.update_user_information(instance, self.context)
 
         return instance
 
     def to_representation(self, instance):
         data = super(UserSerializer, self).to_representation(instance)
-        data.update(UserService.get_user_information(instance))
+        data["quotes"] = QuoteService.get_user_quotes(instance.id)
         return data
