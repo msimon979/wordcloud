@@ -1,5 +1,8 @@
 web := sure-assignment-web-1
 
+connect_web:
+	docker exec -ti $(web) bash
+
 shell:
 	docker exec -ti $(web) sh -c "python manage.py shell"
 

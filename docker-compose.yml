@@ -20,7 +20,6 @@ services:
       - CELERY_BACKEND=redis://redis:6379/0
     depends_on:
       - db
-      - redis
   celery:
     build: .
     command: celery worker --app=sureapp --loglevel=info
