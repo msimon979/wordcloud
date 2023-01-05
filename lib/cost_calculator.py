@@ -60,6 +60,8 @@ class CostCalculator:
             id=new_quote.id
         ).delete()
 
+        return new_quote
+
     @staticmethod
     def update_quote(quote, state):
         user_information = UserInformation.objects.get(user_id=quote.user_id)
@@ -72,5 +74,6 @@ class CostCalculator:
 
         try:
             quote.save()
+            return quote
         except IntegrityError:
             return
