@@ -32,7 +32,7 @@ The access token is valid for 5 minutes. When it expires you can either re authe
 http post http://127.0.0.1:8000/api/token/refresh/ refresh=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY3MzA1NDk3MywiaWF0IjoxNjcyOTY4NTczLCJqdGkiOiJmY2IwNTA2YWZlNmQ0NzRjOTQ1NGZmZThmMjExOGQ4NSIsInVzZXJfaWQiOjF9.4am8ycA1YDnF2Y8r08iHvc_vLk4RHCw1VyYsH4q_aeY`
 ```
 
-The access token returned from that call will be valid for 24 hours.
+The access token returned from that call will be valid for 24 hours. Note, this is authenticating with an admin user. The admin can create external users. For the external user experience authenticate with their credentials. More about users below.
 
 # Test
 To run the entire test suite use the make command `make tests`. Note this requires the web service to be up or it will error out.
