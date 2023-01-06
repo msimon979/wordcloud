@@ -43,7 +43,45 @@ class InternalUserTests(APITestCase):
         response = self.client.post(url, data=data)
         assert response.status_code == status.HTTP_201_CREATED
 
-        data = response.json()
+    def test_post_user_with_missing_data(self):
+        """
+        Given: An authenticated internal user
+
+        When: They create a user with missing data
+
+        Then: The user is not created
+        """
+        url = reverse("users")
+
+        # Missing last_name
+        data = {
+            "password": 123,
+            "state": "CA",
+            "has_pet": True,
+            "include_flood_coverage": True,
+            "coverage_type": "basic",
+            "username": "sure_thing",
+            "email": "sure_thing@gmail.com",
+            "first_name": "test",
+        }
+
+        response = self.client.post(url, data=data)
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+
+        # Missing has_pet
+        data = {
+            "password": 123,
+            "state": "CA",
+            "include_flood_coverage": True,
+            "coverage_type": "basic",
+            "username": "sure_thing",
+            "email": "sure_thing@gmail.com",
+            "first_name": "test",
+            "last_name": "test",
+        }
+
+        response = self.client.post(url, data=data)
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
 
     def test_get_users(self):
         """
