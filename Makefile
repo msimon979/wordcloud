@@ -16,4 +16,4 @@ createsuperuser:
 	docker exec -ti $(web) sh -c "python manage.py createsuperuser --username $(username) --email $(email)"
 
 lint:
-	docker exec -ti $(web) sh -c "isort . && black ."
+	docker exec -ti $(web) sh -c "isort . && black . && autoflake --remove-all-unused-imports -i -r ."

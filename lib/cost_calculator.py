@@ -1,6 +1,6 @@
 from typing import Iterable, Union
 
-from django.db import IntegrityError, transaction
+from django.db import IntegrityError
 
 from quotes.models import Quote
 from states.models import State
@@ -59,8 +59,7 @@ class CostCalculator:
         }
 
         try:
-            with transaction.atomic():
-                new_quote = Quote.objects.create(**query_args)
+            new_quote = Quote.objects.create(**query_args)
         except IntegrityError:
             return
 
