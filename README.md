@@ -73,6 +73,7 @@ http://localhost:8000/quotes/<int:quote_id>/ -> GET quote. Admin and IF the user
 ## Quote creation
 The quote is created as the user is registered in the app. The following data is required in the payload to successfully create a user:
 ![Screen Shot 2023-01-05 at 6 59 28 PM](https://user-images.githubusercontent.com/11825992/210914410-15d267d3-7155-413f-b6ce-a12823b050e7.png)
+The User object uses the default Django auth `User` model but the extra metadata is stored in `UserInformation` which has a FK to the `User` model.
 
 ## State data
 All active states will be held in the `State` model. This will also hold all costs associated with the state such as flood and monthly tax. If a hurricane cost were to be added it would require a migration to add a new column(also alter the calculator logic). You can patch a state object to update its data. If a user has a quote created based on a state, and the state data gets updated, the next time the user GET's their quote it will be updated using the new state data and be persisted to the database.
