@@ -17,3 +17,15 @@ createsuperuser:
 
 lint:
 	docker exec -ti $(web) sh -c "isort . && black . && autoflake --remove-all-unused-imports -i -r ."
+
+start_app:
+	docker-compose up -d db web
+
+prune_docker:
+	docker system prune -a && docker volume prune
+
+init:
+	docker-compose build && docker-compose up -d db web && docker exec -ti $(web) sh -c "python manage.py migrate" && docker-compose logs -f
+
+tests:
+	docker exec -ti $(web) sh -c "pytest ."
