@@ -22,12 +22,16 @@ services:
       - db
   celery:
     build: .
-    command: celery worker --app=sureapp --loglevel=info
+    command: celery worker --app=word --loglevel=info
     volumes:
       - .:/code
     depends_on:
       - web
       - redis
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
   redis:
     image: "redis:alpine"
     ports:
