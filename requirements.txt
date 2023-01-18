@@ -12,4 +12,6 @@ pytest==7.2.0
 pytest-django==4.5.2
 mock==5.0.0
 autoflake==2.0.0
-django-crontab
+requests
+html5lib
+bs4

@@ -1,0 +1,18 @@
+from clouds.models import SubmittedUrls, Words
+from clouds.tasks import add
+
+
+
+for i in SubmittedUrls.objects.all(): print(i.__dict__)
+for i in Words.objects.all(): print(i.__dict__)
+
+
+Words.objects.all().delete()
+SubmittedUrls.objects.all().delete()
+
+
+submitted_url = (
+    SubmittedUrls.objects.select_for_update()
+    .filter(is_processing=False)
+    .earliest("submit_datetime_utc")
+)
